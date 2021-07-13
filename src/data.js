@@ -18,7 +18,9 @@ const writeJSON = (data, fname) => {
    * fname : filename (accounts.json or users.json)
    */
   const dataJSON = JSON.stringify(data)
-  fs.writeFileSync(path.join(__dirname, 'json', fname), dataJSON, 'utf-8' )
+  const p = path.join(__dirname, 'json', fname)
+  // console.log(p)
+  fs.writeFileSync(p, dataJSON, 'utf-8' )
 
 }
 
