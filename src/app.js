@@ -57,7 +57,7 @@ app.post('/transfer', (req, res) => {
   accounts[to].balance = newTo
 
   // step 4-9 : Function Call Transfer - replace with call to writeJSON
-  writeJSON(accounts, "accounts.json")
+  writeJSON()
 
   return res.render('transfer', { message : 'Transfer Completed' })
 })
@@ -78,7 +78,7 @@ app.post('/payment', (req, res) => {
   accounts.credit.available = newAvailable
 
   // step 4-10 : Function Call Payments
-  writeJSON(accounts, "accounts.json")
+  writeJSON()
 
   // const accountsJSON = JSON.stringify(accounts)
 
