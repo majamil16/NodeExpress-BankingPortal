@@ -10,11 +10,14 @@ app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded( { extended : true }) )
 
-const accountData = fs.readFileSync('src/json/accounts.json', { encoding: 'utf-8' })
-const accounts = JSON.parse(accountData)
+// const accountData = fs.readFileSync('src/json/accounts.json', { encoding: 'utf-8' })
+// const accounts = JSON.parse(accountData)
 
-const userData = fs.readFileSync('src/json/users.json', { encoding: 'utf-8' })
-const users = JSON.parse(userData)
+// const userData = fs.readFileSync('src/json/users.json', { encoding: 'utf-8' })
+// const users = JSON.parse(userData)
+
+// step 4-8 : require data library
+const { accounts, users, writeJSON } = require('./data')
 
 
 
@@ -53,9 +56,8 @@ app.post('/transfer', (req, res) => {
   accounts[from].balance = newFrom
   accounts[to].balance = newTo
 
-  const accountsJSON = JSON.stringify(accounts)
-
-  fs.writeFileSync(path.join(__dirname, 'json', 'accounts.json'), accountsJSON, 'utf-8' )
+  // step 4-9 : Function Call Transfer - replace with call to writeJSON
+  writeJSON(accounts, "accounts.json")
 
   return res.render('transfer', { message : 'Transfer Completed' })
 })
@@ -63,6 +65,7 @@ app.post('/transfer', (req, res) => {
 app.get('/payment', (req, res) => {
   return res.render('payment', { account : accounts.credit })
 })
+
 
 app.post('/payment', (req, res) => {
   const { amount } = req.body
@@ -74,9 +77,12 @@ app.post('/payment', (req, res) => {
   accounts.credit.balance = newBalance
   accounts.credit.available = newAvailable
 
-  const accountsJSON = JSON.stringify(accounts)
+  // step 4-10 : Function Call Payments
+  writeJSON(accounts, "accounts.json")
 
-  fs.writeFileSync(path.join(__dirname, 'json', 'accounts.json'), accountsJSON,  'utf-8' )
+  // const accountsJSON = JSON.stringify(accounts)
+
+  // fs.writeFileSync(path.join(__dirname, 'json', 'accounts.json'), accountsJSON,  'utf-8' )
   return res.render('payment', { message : 'Payment Successful' , account : accounts.credit })
 
 
